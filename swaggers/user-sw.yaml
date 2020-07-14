@@ -1,0 +1,181 @@
+swagger: "2.0"
+info:
+  description: "documentation frenon api"
+  version: "1.0.0"
+  title: "Swagger frenon"
+  termsOfService: "http://swagger.io/terms/"
+  contact:
+    email: "apiteam@swagger.io"
+  license:
+    name: "Apache 2.0"
+    url: "http://www.apache.org/licenses/LICENSE-2.0.html"
+schemes:
+- "https"
+- "http"
+
+paths:
+ 
+  /create-user:
+    post:
+      summary: create user 
+      description: ""
+      parameters:
+      - in: body
+        name: body
+        schema:
+          type: object
+          properties:
+            name:
+              type: string
+            address:
+              type:  string
+            phone:
+              type: string
+            email:
+              type: string
+      responses:
+        200:
+          description: OK
+          schema:
+            type: object
+            properties:
+              status:
+                type: boolean
+              message:
+                type: string
+              data:
+                type: object
+  
+  /get-users:
+    get:
+      summary: get users 
+      description: ""
+      responses:
+        200:
+          description: OK
+          schema:
+            type: object
+            properties:
+              status:
+                type: boolean
+              message:
+                type: string
+              data:
+                type: object
+                properties:
+                  users:
+                    type: array
+                    items:
+                      $ref:  '#/definitions/User'
+                      
+  /get-user/{id}:
+    get:
+      summary: get user by id
+      description: ""
+      parameters:
+      - in: path
+        name: id
+        type: number
+        required: true
+      responses:
+        200:
+          description: OK
+          schema:
+            type: object
+            properties:
+              status:
+                type: boolean
+              message:
+                type: string
+              data:
+                type: object
+                properties:
+                  users:
+                    type: array
+                    items:
+                      $ref:  '#/definitions/User'
+              
+ 
+ 
+ 
+ 
+  /update-user/{id}:
+    put:
+      summary: update user
+      description: ""
+      parameters:
+      - in: path
+        name: id
+        type: number
+        required: true
+      - in: body
+        name: body
+        schema:
+          type: object
+          properties:
+            name:
+              type: string
+            address:
+              type:  string
+            phone:
+              type: string
+            email:
+              type: string
+      responses:
+        200:
+          description: OK
+          schema:
+            type: object
+            properties:
+              status:
+                type: boolean
+              message:
+                type: string
+              data:
+                type: object
+              
+              
+ 
+ 
+ 
+  /delete-user/{id}:
+    delete:
+      summary: delete user
+      description: ""
+      parameters:
+      - in: path
+        name: id
+        type: number
+        required: true
+      responses:
+        200:
+          description: OK
+          schema:
+            type: object
+            properties:
+              status:
+                type: boolean
+              message:
+                type: string
+              data:
+                type: object            
+              
+definitions:
+  User:
+    type: object
+    properties:
+      id: 
+        type: string
+      name:
+        type: string
+      address:
+        type: string
+      email:
+        type: string
+      
+      phone: 
+        type: string
+      
+    
+    
+    

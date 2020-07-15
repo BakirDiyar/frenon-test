@@ -20,7 +20,6 @@ async function getUsers(user) {
     let query = "select * from users ";
     let users = ([] = await _get(query));
 
-    console.log(users);
     if (users && users.length) {
       resp.data.users = users;
     }
@@ -47,7 +46,11 @@ async function getUserById(userId) {
     if (user) {
       resp.data.user = user;
     } else {
-      resp = { ...resp, status: false, message: "usuario no encontrado" };
+      resp = {
+        ...resp,
+        status: false,
+        message: "usuario no encontrado en el sistema",
+      };
     }
   } catch (error) {
     resp.status = false;
@@ -128,9 +131,8 @@ async function updUser(userId, data) {
     props = Object.keys(data);
     let values = [];
     let i = 0;
-   
+
     if (props && props.length) {
-   
       props.forEach((p, ix) => {
         i = ix + 1;
         stat += p + "= $" + i;
@@ -141,16 +143,17 @@ async function updUser(userId, data) {
       });
 
       query += stat + " where id =" + userId;
-      
+
       await _update(query, values);
-
-    }else{
-      resp = {...resp, status:false, message:"Debe proveer al menos una propiedad para actualizar"}
+    } else {
+      resp = {
+        ...resp,
+        status: false,
+        message: "Debe proveer al menos una propiedad para actualizar",
+      };
     }
-
- 
   } catch (error) {
-    console.log(error)
+    console.log(error);
     resp = {
       ...resp,
       status: false,

@@ -17,7 +17,7 @@ describe("frenon API", () => {
       const user = {
         name: "Bakir",
         address: "street #",
-        email: "diyar@mail.com",
+        email: "diy@mail.com",
         phone: "1234567890",
       };
       chai
@@ -25,7 +25,6 @@ describe("frenon API", () => {
         .post("/api/create-user")
         .send(user)
         .end((err, response) => {
-            console.log('post response ', response)
           response.should.have.status(200);
           response.body.should.be.a('object');
           response.body.should.have.property('status')

@@ -1,4 +1,4 @@
-const { _get, _insert, _getById, _delete, _update } = require("./users-models");
+const { _get, _insert, _getOne, _getById, _delete, _update } = require("./users-models");
 const sign = require("../../helpers/jwt");
 //service business logic
 
@@ -62,8 +62,14 @@ async function addUser(user) {
   try {
     let { name, phone, address, email } = user;
     console.log(user);
+    const query = `select email from users where email= $1`
     if ((name, phone, address, email)) {
-      await _insert([name, phone, address, email]);
+      let  userExist= await _getOne(query, email)
+      if(!userExist){
+        await _insert([name, phone, address, email]);
+      }else{
+        resp = {...resp, status:false, message:"Ya hay un usuario con ese email, intente con otro"}
+      }
     } else {
       resp = {
         ...resp,

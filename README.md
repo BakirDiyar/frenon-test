@@ -25,7 +25,8 @@ Creación de una api basica de usuarios para demostración de dominio en tecnolo
 - chai-http
 - swagger
 
----
+#### Infrastructura
+La infrastructura de este software se basa en una arquitectura cliente/servidor, donde los clientes podran consumir o mandar datos a traves de endpoints que conforman una api la cual administra un sistema de usuarios
 
 ## Como usar
 clone el repositorio con el comando git clone "url-git" (git clone https://github.com/BakirDiyar/frenon-test.git), posteriormente instale administrador de base de datos PostgreSql y cree una base de datos. Una vez creada registre sus credenciales en el archivo index alojado en la carpeta "databases", esta api hace referencia una tabla llamada "users", se recomienda usar los script entregados en la misma carpeta en el archivo "data.sql"

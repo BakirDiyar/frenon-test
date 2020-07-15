@@ -1,4 +1,4 @@
-const { getUsers, getUserById, addUser, removeUser, updUser, signin } = require("./users-services");
+const { getUsers, getUserById, addUser, removeUser, updUser } = require("./users-services");
 
 //controller receive request of client
 async function getAllUsers(req, res) {
@@ -31,4 +31,4 @@ async function loginUser(req, res){
 }
 
 
-module.exports = { getAllUsers, registerUser, getOneUser, deleteUser, loginUser, updateUser};
+module.exports = { getAllUsers, registerUser, getOneUser, deleteUser, updateUser};

@@ -6,7 +6,8 @@ const { getAllUsers, getOneUser, registerUser, deleteUser, updateUser } = requir
 router.get("/api/get-users", getAllUsers);
 router.get("/api/get-user/:id", getOneUser);
 router.post("/api/create-user", registerUser);
-router.delete("/api/delete-user/:id", deleteUser);
 router.put("/api/update-user/:id", updateUser);
+router.delete("/api/delete-user/:id", deleteUser);
+
 
 module.exports = router;

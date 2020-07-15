@@ -132,24 +132,36 @@ async function updUser(userId, data) {
     let values = [];
     let i = 0;
 
-    if (props && props.length) {
-      props.forEach((p, ix) => {
-        i = ix + 1;
-        stat += p + "= $" + i;
-        values.push(data[p]);
-        if (ix < props.length - 1) {
-          stat += ", ";
-        }
-      });
+    const queryGet = `select * from users where id= $1`;
 
-      query += stat + " where id =" + userId;
+    let userExist = await _getOne(queryGet, userId);
+    if (userExist) {
+      if (props && props.length) {
+        props.forEach((p, ix) => {
+          i = ix + 1;
+          stat += p + "= $" + i;
+          values.push(data[p]);
+          if (ix < props.length - 1) {
+            stat += ", ";
+          }
+        });
 
-      await _update(query, values);
-    } else {
+        query += stat + " where id =" + userId;
+
+        await _update(query, values);
+      } else {
+        resp = {
+          ...resp,
+          status: false,
+          message: "Debe proveer al menos una propiedad para actualizar",
+        };
+      }
+    }
+    else{
       resp = {
         ...resp,
         status: false,
-        message: "Debe proveer al menos una propiedad para actualizar",
+        message: "El usuario no se encuentra en el sistema",
       };
     }
   } catch (error) {

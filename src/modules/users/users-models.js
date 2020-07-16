@@ -4,9 +4,9 @@ module.exports = {
   async _insert(data) {
     let userNew = await conexion.query(
       `insert into users
-        (name, phone, address, email)
+        (name, phone, address, email, password)
         values
-        ($1, $2, $3, $4)`,
+        ($1, $2, $3, $4, $5)`,
       data
     );
     return userNew;
@@ -19,6 +19,7 @@ module.exports = {
 
   async _getById(query, id) {
     const user = await conexion.query(query, [id]);
+    delete user.rows[0].password
     return user.rows[0];
   },
 

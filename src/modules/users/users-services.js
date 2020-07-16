@@ -7,9 +7,55 @@ const {
   _update,
 } = require("./users-models");
 const sign = require("../../helpers/jwt");
+const { secret } = require("../../../environments/env");
 //service business logic
 
-async function getUsers(user) {
+async function signin(user) {
+  let resp = {
+    status: true,
+    message: "Usuarios logueado existosamente",
+    data: {},
+  };
+
+  try {
+    let query = "select * from users where email = $1";
+    let userExist = await _getOne(query, user.email);
+
+    if (userExist) {
+      let { password = null } = userExist;
+      let pass = user.password;
+      if (password === pass) {
+        let userData = {
+          name: userExist.name,
+          email: userExist.email,
+          phone: userExist.phone,
+        };
+        let token = sign(userData);
+        return (resp.data = { ...resp, data: userData, token });
+      }
+
+      return (resp = {
+        ...resp,
+        status: false,
+        message: "credenciales incorrectas, intente nuevamente",
+      });
+    } else {
+      resp = {
+        ...resp,
+        status: false,
+        message: "el usuario no está registrado en el sistema",
+      };
+    }
+  } catch (error) {
+    console.log(error);
+    resp.status = false;
+    resp.message = "Hubo un problema al ingresar al sistema";
+  }
+
+  return resp;
+}
+
+async function getUsers() {
   let resp = {
     status: true,
     message: "Usuarios obtenidos existosamente",
@@ -21,6 +67,9 @@ async function getUsers(user) {
     let users = ([] = await _get(query));
 
     if (users && users.length) {
+      users.forEach(user =>{
+        delete user.password 
+      })
       resp.data.users = users;
     }
   } catch (error) {
@@ -44,6 +93,7 @@ async function getUserById(userId) {
     let user = await _getById(query, +userId);
 
     if (user) {
+      
       resp.data.user = user;
     } else {
       resp = {
@@ -68,13 +118,13 @@ async function addUser(user) {
   };
 
   try {
-    let { name, phone, address, email } = user;
+    let { name, phone, address, email, password } = user;
     console.log(user);
     const query = `select email from users where email= $1`;
-    if ((name, phone, address, email)) {
+    if ((name, phone, address, email, password)) {
       let userExist = await _getOne(query, email);
       if (!userExist) {
-        await _insert([name, phone, address, email]);
+        await _insert([name, phone, address, email, password]);
       } else {
         resp = {
           ...resp,
@@ -156,8 +206,7 @@ async function updUser(userId, data) {
           message: "Debe proveer al menos una propiedad para actualizar",
         };
       }
-    }
-    else{
+    } else {
       resp = {
         ...resp,
         status: false,
@@ -181,4 +230,5 @@ module.exports = {
   getUserById,
   removeUser,
   updUser,
+  signin,
 };

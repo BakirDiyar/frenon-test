@@ -1,13 +1,14 @@
 //call router object created
 const router = require("../../../routes/router");
-const { getAllUsers, getOneUser, registerUser, deleteUser, updateUser } = require("./users-controllers");
-
+const {loginUser, getAllUsers, getOneUser, registerUser, deleteUser, updateUser } = require("./users-controllers");
+const auth = require("../../../middlewares/auth")
 //exec controller in router
-router.get("/api/get-users", getAllUsers);
-router.get("/api/get-user/:id", getOneUser);
-router.post("/api/create-user", registerUser);
-router.put("/api/update-user/:id", updateUser);
-router.delete("/api/delete-user/:id", deleteUser);
+router.post("/api/login", loginUser);
+router.get("/api/get-users", auth, getAllUsers);
+router.get("/api/get-users/:id", getOneUser);
+router.post("/api/create-users", registerUser);
+router.put("/api/update-users/:id", updateUser);
+router.delete("/api/delete-users/:id", deleteUser);
 
 
 module.exports = router;

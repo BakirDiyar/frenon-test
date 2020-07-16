@@ -12,9 +12,43 @@ info:
 schemes:
 - "https"
 - "http"
+securityDefinitions:
+  Bearer:
+    type: apiKey
+    name: Authorization
+    in: header
 
 paths:
- 
+
+  /login:
+    post:
+      summary: login user 
+      description: ""
+      parameters:
+      - in: body
+        name: body
+        schema:
+          type: object
+          properties:
+            email:
+              type: string
+            password:
+              type: string
+      responses:
+        200:
+          description: OK
+          schema:
+            type: object
+            properties:
+              status:
+                type: boolean
+              message:
+                type: string
+              data:
+                type: object
+              token:
+                type: string
+                
   /create-user:
     post:
       summary: create user 
@@ -33,6 +67,8 @@ paths:
               type: string
             email:
               type: string
+            password:
+              type: string
       responses:
         200:
           description: OK
@@ -48,6 +84,8 @@ paths:
   
   /get-users:
     get:
+      security:
+        - Bearer: []
       summary: get users 
       description: ""
       responses:

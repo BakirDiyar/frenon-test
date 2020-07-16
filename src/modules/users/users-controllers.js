@@ -1,10 +1,11 @@
-const { getUsers, getUserById, addUser, removeUser, updUser } = require("./users-services");
+const { getUsers, getUserById, addUser, removeUser, updUser, signin } = require("./users-services");
 
 //controller receive request of client
 async function getAllUsers(req, res) {
   
   res.send(await getUsers());
 }
+
 
 async function getOneUser(req, res) {
   
@@ -27,8 +28,9 @@ async function updateUser(req, res){
 
 
 async function loginUser(req, res){
+  console.log('rreq ',  req.body)
   res.send(await signin(req.body))
 }
 
 
-module.exports = { getAllUsers, registerUser, getOneUser, deleteUser, updateUser};
+module.exports = {loginUser, getAllUsers, registerUser, getOneUser, deleteUser, updateUser};
